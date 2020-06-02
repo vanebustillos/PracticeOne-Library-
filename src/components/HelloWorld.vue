@@ -3,20 +3,18 @@
     <table>
       <thead>
         <tr>
-          <th
-            :key="columnkey"
-            v-for="columnkey in columns"
-            :class="{ active: sortKey == columnkey }"
-          >
-            {{ columnkey }}
-          </th>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Category</th>
         </tr>
       </thead>
       <tbody>
-        <tr :key="item.data" v-for="item in filteredData">
-          <td :key="key" v-for="key in columns">
-            {{ item[key] }}
-          </td>
+        <tr :key="item.name" v-for="item in filteredData">
+          <td>{{ item.code }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.category }}</td>
         </tr>
       </tbody>
     </table>
@@ -28,41 +26,149 @@ export default {
   name: "HelloWorld",
   props: {
     data: Array,
-    columns: Array,
     filterKey: String, //name or description
     filterCategory: String,
     msg: String
   },
-  data() {
-    var sortOrders = {};
-    this.columns.forEach(function(key) {
-      sortOrders[key] = 1;
-    });
+  /* data() {
     return {
-      sortKey: "",
-      sortOrders: sortOrders
+      list: [
+        {
+          code: 1,
+          name: "Cien Años de Soledad",
+          description: "Novela legendaria",
+          category: "Books"
+        },
+        {
+          code: 2,
+          name: "El Señor de los Anillos",
+          description: "Novela de ciencia ficción",
+          category: "Books"
+        },
+        {
+          code: 3,
+          name: "Un mundo feliz",
+          description: "Novela metafórica",
+          category: "Books"
+        },
+        {
+          code: 4,
+          name: "Orgullo y Prejuicio",
+          description: "Novela",
+          category: "Books"
+        },
+        {
+          code: 5,
+          name: "Ulises",
+          description: "Novela contemporánea",
+          category: "Books"
+        },
+        {
+          code: 6,
+          name: "Vogue",
+          description: "Revista de moda y nuevas tendencias",
+          category: "Magazines"
+        },
+        {
+          code: 7,
+          name: "Time",
+          description: "Revista de polémica",
+          category: "Magazines"
+        },
+        {
+          code: 8,
+          name: "Food Network Magazine",
+          description: "Revista de alimentación, cocina y alta gastronomía",
+          category: "Magazines"
+        },
+        {
+          code: 9,
+          name: "Fortune",
+          description: "Revista global de negocios",
+          category: "Magazines"
+        },
+        {
+          code: 10,
+          name: "Forbs",
+          description: "Revista especializada en negocios y finanzas",
+          category: "Magazines"
+        },
+        {
+          code: 11,
+          name: "The New York Times",
+          description: "Periódico Estadounidense",
+          category: "Newspapers"
+        },
+        {
+          code: 12,
+          name: "The Washington Post",
+          description: "Periódico Estadounidense",
+          category: "Newspapers"
+        },
+        {
+          code: 13,
+          name: "Los Tiempos",
+          description: "Periódico Boliviano",
+          category: "Newspapers"
+        },
+        {
+          code: 14,
+          name: "Opinión",
+          description: "Periódico Boliviano",
+          category: "Newspapers"
+        },
+        {
+          code: 15,
+          name: "Clarín",
+          description: "Periódico Argentino",
+          category: "Newspapers"
+        },
+        {
+          code: 16,
+          name: "El pequeño Larousse",
+          description: "Enciclopedia",
+          category: "Others"
+        },
+        {
+          code: 17,
+          name: "La Santa Biblia",
+          description: "Biblia Latioamericana",
+          category: "Others"
+        },
+        {
+          code: 18,
+          name: "Student's",
+          description: "Richmond Dictionary",
+          category: "Others"
+        },
+        {
+          code: 19,
+          name: "Iter Sopena",
+          description: "Diccionario de español",
+          category: "Others"
+        },
+        {
+          code: 20,
+          name: "Fábulas de Esopo",
+          description: "Fábula infantil",
+          category: "Others"
+        }
+      ]
     };
   },
+};*/
   computed: {
     filteredData() {
       var filterKey = this.filterKey && this.filterKey.toLowerCase();
-      var filterCategory =
-        this.filterCategory && this.filterCategory.toLowerCase();
-      var data = this.data;
-      if (filterCategory === "All") {
-        filterKey = "";
-      } else if (filterKey && filterCategory != "All") {
-        data = data.filter(function(row) {
-          return Object.keys(row).some(function(key) {
-            return (
-              String(row[key])
-                .toLowerCase()
-                .indexOf(filterKey && filterCategory) > -1
-            );
-          });
-        });
-      }
-      return data;
+      return this.data.filter(
+        item =>
+          ((item.name.toLowerCase().includes(filterKey) ||
+            item.description.toLowerCase().includes(filterKey)) &&
+            item.category === this.filterCategory) ||
+          (this.filterCategory === "All" &&
+            (item.name.toLowerCase().includes(filterKey) ||
+              item.description.toLowerCase().includes(filterKey)))
+      );
     }
   }
 };

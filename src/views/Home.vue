@@ -3,11 +3,10 @@
     <br />
     <img alt="Vue logo" src="../assets/logo.png" />
     <br />
-    <h1>{{ msg }}</h1>
+    <h1>
+      <u>{{ msg }} </u>
+    </h1>
     <br />
-    <!--form id="search">
-      Search by Name or Description:<input name="query" v-model="searchQuery" />
-    </form-->
     <label>Search by Name or Description: </label>
     <input v-model="searchQuery" />
     <br />
@@ -25,8 +24,7 @@
     <br />
     <HelloWorld
       :msg="msg"
-      :data="gridData"
-      :columns="gridColumns"
+      :data="list"
       :filter-key="searchQuery"
       :filter-category="selectedOption"
     >
@@ -47,9 +45,8 @@ export default {
     return {
       msg: "Welcome to Your Library",
       searchQuery: "", //name or description
-      selectedOption: "", //category
-      gridColumns: ["code", "name", "description", "category"],
-      gridData: [
+      selectedOption: "All", //category
+      list: [
         {
           code: 1,
           name: "Cien Años de Soledad",
